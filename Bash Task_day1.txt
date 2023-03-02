@@ -1,0 +1,53 @@
+#!/bin/bash
+# This script performs floating-point addition using bc
+# Define the two operands as variables
+operand1=2.5
+operand2=3.7
+# Use the bc command to perform the addition
+result=$(echo "$operand1 + $operand2" | bc)
+# Print the result to the console
+echo "The sum of $operand1 and $operand2 is: $result"
+
+
+#!/bin/bash
+# This script monitors the system load every minute
+while true
+do
+ # Get the current date and time
+ now=$(date +"%Y-%m-%d %H:%M:%S")
+ # Get the system load averages for the past 1, 5, and 15 minutes
+ loadavg=$(uptime | awk '{print $10,$11,$12}')
+ # Print the current date, time, and system load averages to the console
+ echo "$now - Load average: $loadavg"
+ # Wait for 1 minute before checking the system load again
+ sleep 60
+done
+
+
+#!/bin/bash
+# This script logs the system load and date to /var/log/systemLoad
+# Define the log file path as a variable
+log_file="/var/log/systemLoad"
+# Get the current date and time
+now=$(date +"%Y-%m-%d %H:%M:%S")
+# Get the system load averages for the past 1, 5, and 15 minutes
+loadavg=$(uptime | awk '{print $10,$11,$12}')
+# Append the load and date to the log file
+echo "$now Load Average: $loadavg" >> $log_file
+
+#!/bin/bash
+# This script writes an event to /tmp/events
+# Define the event file path as a variable
+event_file="/tmp/events"
+# Get the current date and time
+now=$(date +"%Y-%m-%d %H:%M:%S")
+# Get the system hostname and IP address
+hostname=$(hostname)
+ip=$(hostname -I | awk '{print $1}')
+# Get the system load averages for the past 1, 5, and 15 minutes
+loadavg=$(uptime | awk '{print $10,$11,$12}')
+# Define the email subject and body
+subject="Server $ip load"
+body="Dear,\n\nThe system ($hostname) runs with IP $ip has a load of:\n\n1MIN load: $(echo $loadavg 
+| cut -d ' ' -f 1)\n5MIN load: $(echo $loadavg | cut -d ' ' -f 2)\n15MIN load: $(echo $loadavg | cut -d ' ' -f 
+3)\n\nThank you
